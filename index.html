@@ -1,0 +1,512 @@
+<!doctype html>
+<html lang="nl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="robots" content="noindex, nofollow">
+<meta name="description" content="Go-live van Ruil&amp;Groei: statische ads, video’s en advertentieteksten.">
+<style>:root{color-scheme:light;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}body{margin:0}img{max-width:100%}[hidden]{display:none!important}</style>
+<title>Ruil&amp;Groei go-live</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Lora:ital,wght@0,500;0,700;1,600&display=swap">
+<style>
+/* Layout: één kolom in vier blokken (intro, testopzet, statische ads, video's); formaten op gelijke hoogte naast elkaar, teksten als drie kaarten per groep. */
+:root {
+  --bg: #FBF7EF; --surface: #FFFFFF; --ink: #022019; --ink-2: #3A4C44; --muted: #6B776E;
+  --line: #E6DCCB; --line-soft: #EFE7DA; --accent: #C2433A; --leaf: #3E7426; --leaf-soft: #E4EFDA;
+  --sand: #F2E8D6; --sand-ink: #85734F; --on-accent: #FFFFFF; --deep: #022019; --on-deep: #F6F1E7; --skel: #F1EBDF;
+  --shadow: 0 14px 34px -16px rgba(2, 32, 25, .42);
+  --f-display: 'Lora', Georgia, 'Times New Roman', serif;
+  --f-body: 'Inter', system-ui, -apple-system, 'Segoe UI', Roboto, Arial, sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    --bg: #0E1D17; --surface: #152A21; --ink: #F1ECE1; --ink-2: #C9D2CA; --muted: #93A096;
+    --line: #283D33; --line-soft: #20342A; --accent: #F07F72; --leaf: #8CC56B; --leaf-soft: #1F3A27;
+    --sand: #2B2C22; --sand-ink: #D9C9A5; --on-accent: #1A0D0B; --deep: #F1ECE1; --on-deep: #0E1D17; --skel: #22362C;
+    --shadow: 0 14px 34px -16px rgba(0, 0, 0, .75); color-scheme: dark;
+  }
+}
+:root[data-theme="dark"] {
+  --bg: #0E1D17; --surface: #152A21; --ink: #F1ECE1; --ink-2: #C9D2CA; --muted: #93A096;
+  --line: #283D33; --line-soft: #20342A; --accent: #F07F72; --leaf: #8CC56B; --leaf-soft: #1F3A27;
+  --sand: #2B2C22; --sand-ink: #D9C9A5; --on-accent: #1A0D0B; --deep: #F1ECE1; --on-deep: #0E1D17; --skel: #22362C;
+  --shadow: 0 14px 34px -16px rgba(0, 0, 0, .75); color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { background: var(--bg); color: var(--ink); font-family: var(--f-body); font-size: 15px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+.wrap { max-width: 1160px; margin: 0 auto; padding-block: 36px 64px;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px)); }
+a { color: inherit; }
+a:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 3px; }
+
+/* kop en intro */
+.top { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 8px 16px; padding-bottom: 14px; border-bottom: 1px solid var(--line); }
+.brand { font-family: var(--f-display); font-weight: 700; font-size: 21px; letter-spacing: -0.01em; }
+.status { font-size: 12.5px; color: var(--muted); }
+.pill { display: inline-block; font-size: 10.5px; font-weight: 700; letter-spacing: .08em; text-transform: uppercase; padding: 3px 8px; border-radius: 99px; background: var(--sand); color: var(--sand-ink); margin-right: 6px; vertical-align: 1px; }
+.hero { margin-top: 48px; }
+.eyebrow { font-size: 11.5px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); margin: 0 0 8px; }
+h1 { font-family: var(--f-display); font-weight: 700; font-size: clamp(56px, 10vw, 104px); line-height: .92; letter-spacing: -0.035em; margin: 0; }
+.h1sub { font-family: var(--f-display); font-style: italic; font-weight: 600; font-size: clamp(28px, 4.4vw, 46px); line-height: 1.1; color: var(--accent); margin: 8px 0 0; letter-spacing: -0.01em; }
+.lede { max-width: 64ch; color: var(--ink-2); font-size: 16.5px; margin: 22px 0 0; }
+.stats { display: flex; flex-wrap: wrap; gap: 20px 36px; margin-top: 26px; }
+.stats div { display: flex; flex-direction: column; }
+.stats b { font-family: var(--f-display); font-weight: 700; font-size: 36px; line-height: 1; font-variant-numeric: tabular-nums; }
+.stats span { font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-top: 7px; }
+.jump { display: flex; flex-wrap: wrap; gap: 8px; margin: 28px 0 0; padding: 0; list-style: none; }
+.jump a { display: inline-flex; font-size: 13.5px; font-weight: 600; padding: 8px 14px; border-radius: 99px; border: 1px solid var(--line); background: var(--surface); text-decoration: none; }
+.jump a:hover { border-color: var(--ink); }
+
+/* blokken */
+.block { margin-top: 68px; padding-top: 44px; border-top: 1px solid var(--line); scroll-margin-top: 12px; }
+.bhead { margin-bottom: 28px; }
+h2 { font-family: var(--f-display); font-weight: 700; font-size: clamp(32px, 4.8vw, 46px); line-height: 1.02; margin: 0; letter-spacing: -0.02em; text-wrap: balance; }
+h3 { font-family: var(--f-display); font-weight: 700; font-size: clamp(23px, 3vw, 29px); line-height: 1.1; margin: 0; letter-spacing: -0.012em; text-wrap: balance; }
+.blede { max-width: 66ch; color: var(--ink-2); margin: 12px 0 0; font-size: 15.5px; }
+.adc { display: inline-block; font-size: 12px; font-weight: 700; color: var(--ink-2); background: var(--sand); border-radius: 6px; padding: 2px 7px; font-variant-numeric: tabular-nums; white-space: nowrap; letter-spacing: .02em; }
+.label { font-size: 11px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); margin: 0 0 10px; }
+.chead { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: flex-end; gap: 10px 24px; margin-bottom: 18px; }
+.facts { display: flex; flex-wrap: wrap; gap: 6px; list-style: none; margin: 0; padding: 0; }
+.facts li { font-size: 12.5px; font-weight: 600; color: var(--ink-2); padding: 5px 11px; border-radius: 99px; background: var(--surface); border: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+
+/* testopzet */
+.ov { display: grid; grid-template-columns: minmax(0, 1fr) 290px; gap: 28px; align-items: start; }
+.tablewrap { overflow-x: auto; border: 1px solid var(--line); border-radius: 14px; background: var(--surface); }
+.matrix { width: 100%; min-width: 620px; border-collapse: collapse; font-size: 14px; }
+.matrix th { font-size: 10.5px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--muted); text-align: left; padding: 12px 16px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.matrix td { padding: 10px 16px; border-bottom: 1px solid var(--line-soft); vertical-align: middle; }
+.matrix tr:last-child td { border-bottom: 0; }
+.matrix .c { text-align: center; }
+.matrix tr.grp td { font-size: 10.5px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--accent); padding: 8px 16px; background: var(--bg); }
+.cr { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+.cr img { width: 44px; height: 44px; object-fit: cover; border-radius: 6px; flex: none; }
+.cr img.pt { width: 36px; height: 45px; margin: 0 4px; }
+.cr small { display: block; font-size: 11px; font-weight: 700; color: var(--muted); letter-spacing: .05em; font-variant-numeric: tabular-nums; }
+.cr strong { font-family: var(--f-display); font-size: 16.5px; font-weight: 700; line-height: 1.2; }
+.cr:hover strong { text-decoration: underline; text-underline-offset: 3px; }
+.fchip { display: inline-block; font-size: 11.5px; font-weight: 700; padding: 3px 7px; border-radius: 6px; margin-right: 4px; background: var(--leaf-soft); color: var(--leaf); font-variant-numeric: tabular-nums; }
+.fchip.wait { background: transparent; color: var(--sand-ink); border: 1px dashed var(--line); }
+.side { display: flex; flex-direction: column; gap: 16px; }
+.nums { display: flex; align-items: center; justify-content: space-between; background: var(--deep); color: var(--on-deep); border-radius: 14px; padding: 18px 22px; }
+.nums div { display: flex; flex-direction: column; align-items: center; }
+.nums b { font-family: var(--f-display); font-weight: 700; font-size: 32px; line-height: 1; }
+.nums span { font-size: 10px; letter-spacing: .1em; text-transform: uppercase; opacity: .75; margin-top: 6px; font-weight: 700; }
+.nums i { font-style: normal; font-family: var(--f-display); font-size: 20px; opacity: .55; margin-top: -14px; }
+.box { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 16px 18px; }
+.legend { display: grid; grid-template-columns: 44px minmax(0, 1fr); row-gap: 6px; margin: 0; font-size: 14px; }
+.legend dt { font-weight: 700; font-variant-numeric: tabular-nums; }
+.legend dd { margin: 0; color: var(--ink-2); }
+.todo ul { margin: 0; padding: 0; list-style: none; font-size: 14px; color: var(--ink-2); }
+.todo li { display: flex; gap: 10px; align-items: baseline; margin-bottom: 6px; }
+.todo li::before { content: ''; flex: none; width: 11px; height: 11px; border-radius: 3px; border: 1.5px solid var(--sand-ink); transform: translateY(1px); }
+.todo li.done { color: var(--leaf); font-weight: 600; }
+.todo li.done::before { background: var(--leaf); border-color: var(--leaf); }
+
+/* statische ads */
+.creative + .creative { margin-top: 44px; }
+.gallery { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, .5625fr) minmax(0, 1.7778fr); gap: 16px; align-items: start; }
+.shot { margin: 0; min-width: 0; }
+.zoom { appearance: none; border: 0; padding: 0; margin: 0; background: none; display: block; width: 100%; cursor: zoom-in; border-radius: 10px; }
+.zoom img { display: block; width: 100%; max-width: 100%; height: auto; border-radius: 10px; box-shadow: var(--shadow); transition: transform .2s ease; }
+.zoom:hover img { transform: translateY(-2px); }
+.r11 img { aspect-ratio: 1 / 1; } .r916 img { aspect-ratio: 9 / 16; } .r169 img { aspect-ratio: 16 / 9; }
+.shot figcaption, .player figcaption { display: flex; gap: 8px; align-items: baseline; margin-top: 10px; font-size: 13px; color: var(--muted); }
+.shot figcaption b, .player figcaption b { color: var(--ink); font-weight: 700; font-variant-numeric: tabular-nums; }
+
+/* teksten */
+.textset { margin-top: 48px; }
+.thead { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 6px 20px; margin-bottom: 16px; }
+.thead p { margin: 0; color: var(--muted); font-size: 14px; }
+.tcards { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; align-items: stretch; }
+.tcard { background: var(--surface); border: 1px solid var(--line); border-radius: 14px; padding: 18px 20px; display: flex; flex-direction: column; gap: 14px; min-width: 0; }
+.tcard.pending { border-style: dashed; }
+.tcard header { display: flex; justify-content: space-between; align-items: baseline; gap: 10px; padding-bottom: 11px; border-bottom: 1px solid var(--line); }
+.tcard h4 { font-family: var(--f-display); font-weight: 700; font-size: 20px; margin: 0; }
+.codes { font-size: 11.5px; font-weight: 700; color: var(--ink-2); font-variant-numeric: tabular-nums; text-align: right; letter-spacing: .02em; }
+.flabel { font-size: 10.5px; font-weight: 700; letter-spacing: .13em; text-transform: uppercase; color: var(--muted); margin: 0 0 7px; }
+.primary p { margin: 0 0 9px; font-size: 15px; line-height: 1.5; }
+.primary p.step { margin-bottom: 2px; }
+.primary p.step + p:not(.step) { margin-top: 7px; }
+.primary p:last-child { margin-bottom: 0; }
+.frow { margin-top: auto; padding-top: 13px; border-top: 1px solid var(--line-soft); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; }
+.headline { margin: 0; font-weight: 700; font-size: 15px; line-height: 1.35; }
+.desc { margin: 0; color: var(--ink-2); font-size: 14.5px; line-height: 1.4; }
+.skel { height: 10px; border-radius: 5px; background: var(--skel); margin-bottom: 8px; }
+
+/* video's */
+.video + .video { margin-top: 48px; padding-top: 40px; border-top: 1px dashed var(--line); }
+.video { scroll-margin-top: 12px; }
+.vbody { display: grid; grid-template-columns: minmax(0, 1.55fr) minmax(0, 1fr); gap: 44px; align-items: start; }
+.players { display: grid; grid-template-columns: minmax(0, .8fr) minmax(0, .5625fr); gap: 16px; align-items: start; }
+.player { margin: 0; min-width: 0; }
+.player video { display: block; width: 100%; max-width: 100%; height: auto; border-radius: 12px; background: #000; box-shadow: var(--shadow); }
+.r45 video { aspect-ratio: 4 / 5; } .r916 video { aspect-ratio: 9 / 16; }
+.script { min-width: 0; }
+.timeline { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 2px; }
+.timeline button { appearance: none; border: 0; background: transparent; font: inherit; color: var(--ink); text-align: left; width: 100%;
+  display: grid; grid-template-columns: 52px minmax(0, 1fr); gap: 10px; align-items: baseline; padding: 9px 12px; border-radius: 10px; cursor: pointer; font-size: 15px; line-height: 1.4; }
+.timeline button:hover { background: var(--surface); }
+.ts { justify-self: start; font-variant-numeric: tabular-nums; font-weight: 700; color: var(--accent); font-size: 13px; padding: 1px 7px; border-radius: 6px; margin-left: -7px; }
+.timeline button.is-now { background: var(--surface); }
+.timeline button.is-now .ts { background: var(--accent); color: var(--on-accent); }
+.hint { font-size: 12.5px; color: var(--muted); margin: 12px 0 0 12px; }
+
+.foot { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px 24px; margin-top: 64px; padding-top: 16px; border-top: 1px solid var(--line); font-size: 12.5px; color: var(--muted); }
+
+/* lightbox: altijd donker, ongeacht thema */
+.lb { border: 0; padding: 0; background: transparent; max-width: 94vw; max-height: 94vh; overflow: visible; }
+.lb::backdrop { background: rgba(4, 14, 10, .88); }
+.lb img { display: block; max-width: min(94vw, 1500px); max-height: 84vh; width: auto; height: auto; border-radius: 10px; margin: 0 auto; }
+.lb-bar { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-top: 12px; color: #F6F1E7; font-size: 13.5px; }
+.lb-bar button { appearance: none; border: 1px solid rgba(246, 241, 231, .45); background: transparent; color: #F6F1E7; font: inherit; font-weight: 600; padding: 7px 16px; border-radius: 99px; cursor: pointer; }
+
+@media (max-width: 900px) {
+  .ov, .vbody { grid-template-columns: minmax(0, 1fr); }
+  .tcards { grid-template-columns: minmax(0, 1fr); }
+}
+@media (max-width: 700px) {
+  .gallery { grid-template-columns: minmax(0, 1fr) minmax(0, .5625fr); }
+  .r169 { grid-column: 1 / -1; }
+}
+@media (max-width: 540px) {
+  .players { grid-template-columns: minmax(0, 1fr); gap: 22px; }
+  .r916.player { max-width: 300px; }
+  .block { margin-top: 52px; padding-top: 34px; }
+  .frow { grid-template-columns: minmax(0, 1fr); }
+}
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } .zoom img { transition: none; } }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header class="top">
+    <div class="brand">Ruil&amp;Groei</div>
+    <div class="status">28 oktober 2026 · Opgesteld door GrowGuide</div>
+  </header>
+
+  <section class="hero">
+    <p class="eyebrow">Campagne · go-live</p>
+    <h1>Go-live</h1>
+    <p class="h1sub">creatives &amp; teksten</p>
+    <p class="lede">Alle advertenties voor de livegang op één plek: 3 statische ads en 3 video’s, met de teksten erbij.
+    Elke statische ad draait met dezelfde drie teksten, en elke video ook. Zo zien we welke tekst én welke creative het beste werkt.</p>
+    <div class="stats"><div><b>6</b><span>creatives</span></div><div><b>3</b><span>teksten per creative</span></div><div><b>18</b><span>advertenties</span></div></div>
+    <ul class="jump">
+      <li><a href="#testopzet">Testopzet</a></li>
+      <li><a href="#statisch">Statische ads</a></li>
+      <li><a href="#videos">Video’s</a></li>
+    </ul>
+  </section>
+
+  <section class="block" id="testopzet" aria-labelledby="t-testopzet">
+    <div class="bhead">
+      <p class="eyebrow">Opzet</p>
+      <h2 id="t-testopzet">Testopzet</h2>
+      <p class="blede">Een advertentie heet creative + tekst: <span class="adc">S2-B</span> is statische ad 2 met tekst B. Klik op een creative om ernaartoe te gaan.</p>
+    </div>
+    <div class="ov">
+      <div class="tablewrap">
+        <table class="matrix">
+          <thead><tr><th>Creative</th><th>Formaten</th><th class="c">Tekst A</th><th class="c">Tekst B</th><th class="c">Tekst C</th></tr></thead>
+          <tbody><tr class="grp"><td colspan="5">Statisch</td></tr><tr><td><a class="cr" href="#static-1"><img src="s1_1x1.jpg" alt="" loading="lazy"><span><small>S1</small><strong>Geef door, ruil &amp; bespaar!</strong></span></a></td><td><span class="fchip">1:1</span><span class="fchip">9:16</span><span class="fchip">16:9</span></td><td class="c"><span class="adc">S1-A</span></td><td class="c"><span class="adc">S1-B</span></td><td class="c"><span class="adc">S1-C</span></td></tr><tr><td><a class="cr" href="#static-2"><img src="s2_1x1.jpg" alt="" loading="lazy"><span><small>S2</small><strong>Groei met ons mee!</strong></span></a></td><td><span class="fchip">1:1</span><span class="fchip">9:16</span><span class="fchip">16:9</span></td><td class="c"><span class="adc">S2-A</span></td><td class="c"><span class="adc">S2-B</span></td><td class="c"><span class="adc">S2-C</span></td></tr><tr><td><a class="cr" href="#static-3"><img src="s3_1x1.jpg" alt="" loading="lazy"><span><small>S3</small><strong>Te klein geworden?</strong></span></a></td><td><span class="fchip">1:1</span><span class="fchip">9:16</span><span class="fchip">16:9</span></td><td class="c"><span class="adc">S3-A</span></td><td class="c"><span class="adc">S3-B</span></td><td class="c"><span class="adc">S3-C</span></td></tr><tr class="grp"><td colspan="5">Video</td></tr><tr><td><a class="cr" href="#video-1"><img class="pt" src="v1_4x5.jpg" alt="" loading="lazy"><span><small>V1 · 0:17</small><strong>Alweer te klein?</strong></span></a></td><td><span class="fchip">4:5</span><span class="fchip">9:16</span></td><td class="c"><span class="adc">V1-A</span></td><td class="c"><span class="adc">V1-B</span></td><td class="c"><span class="adc">V1-C</span></td></tr><tr><td><a class="cr" href="#video-2"><img class="pt" src="v2_4x5.jpg" alt="" loading="lazy"><span><small>V2 · 0:23</small><strong>Zo werken de munten</strong></span></a></td><td><span class="fchip">4:5</span><span class="fchip">9:16</span></td><td class="c"><span class="adc">V2-A</span></td><td class="c"><span class="adc">V2-B</span></td><td class="c"><span class="adc">V2-C</span></td></tr><tr><td><a class="cr" href="#video-3"><img class="pt" src="v3_4x5.jpg" alt="" loading="lazy"><span><small>V3 · 0:21</small><strong>Vorige maand paste die nog!</strong></span></a></td><td><span class="fchip">4:5</span><span class="fchip">9:16</span></td><td class="c"><span class="adc">V3-A</span></td><td class="c"><span class="adc">V3-B</span></td><td class="c"><span class="adc">V3-C</span></td></tr></tbody>
+        </table>
+      </div>
+      <aside class="side">
+        <div class="nums"><div><b>6</b><span>creatives</span></div><i>×</i><div><b>3</b><span>teksten</span></div><i>=</i><div><b>18</b><span>advertenties</span></div></div>
+        <div class="box">
+          <p class="label">Formaten</p>
+          <dl class="legend"><dt>1:1</dt><dd>Feed — statisch</dd><dt>4:5</dt><dd>Feed — video</dd><dt>9:16</dt><dd>Stories &amp; Reels</dd><dt>16:9</dt><dd>Liggend formaat — statisch</dd></dl>
+        </div>
+        <div class="box todo"><p class="label">Nog aan te leveren</p><ul><li class="done">Alles is binnen</li></ul></div>
+      </aside>
+    </div>
+  </section>
+
+  <section class="block" id="statisch" aria-labelledby="t-statisch">
+    <div class="bhead">
+      <p class="eyebrow">Statisch</p>
+      <h2 id="t-statisch">Statische ads</h2>
+      <p class="blede">Drie creatives, elk in 1:1, 9:16 en 16:9. Klik op een afbeelding om hem groot te bekijken.</p>
+    </div>
+      <article class="creative" id="static-1" aria-labelledby="t-static-1">
+        <div class="chead">
+          <div><p class="eyebrow">Statische ad 1 van 3</p><h3 id="t-static-1">Geef door, ruil &amp; bespaar!</h3></div>
+          <ul class="facts"><li>Advertenties S1-A · S1-B · S1-C</li></ul>
+        </div>
+        <div class="gallery">
+          <figure class="shot r11">
+            <button type="button" class="zoom" data-full="s1_1x1.jpg" data-cap="S1 · 1:1 · Feed" aria-label="Bekijk 1:1 groot">
+              <img src="s1_1x1.jpg" alt="Geef door, ruil &amp; bespaar! in 1:1" loading="lazy"></button>
+            <figcaption><b>1:1</b><span>Feed</span></figcaption>
+          </figure>
+          <figure class="shot r916">
+            <button type="button" class="zoom" data-full="s1_9x16.jpg" data-cap="S1 · 9:16 · Stories &amp; Reels" aria-label="Bekijk 9:16 groot">
+              <img src="s1_9x16.jpg" alt="Geef door, ruil &amp; bespaar! in 9:16" loading="lazy"></button>
+            <figcaption><b>9:16</b><span>Stories &amp; Reels</span></figcaption>
+          </figure>
+          <figure class="shot r169">
+            <button type="button" class="zoom" data-full="s1_16x9.jpg" data-cap="S1 · 16:9 · Liggend formaat" aria-label="Bekijk 16:9 groot">
+              <img src="s1_16x9.jpg" alt="Geef door, ruil &amp; bespaar! in 16:9" loading="lazy"></button>
+            <figcaption><b>16:9</b><span>Liggend formaat</span></figcaption>
+          </figure>
+        </div>
+      </article>
+      <article class="creative" id="static-2" aria-labelledby="t-static-2">
+        <div class="chead">
+          <div><p class="eyebrow">Statische ad 2 van 3</p><h3 id="t-static-2">Groei met ons mee!</h3></div>
+          <ul class="facts"><li>Advertenties S2-A · S2-B · S2-C</li></ul>
+        </div>
+        <div class="gallery">
+          <figure class="shot r11">
+            <button type="button" class="zoom" data-full="s2_1x1.jpg" data-cap="S2 · 1:1 · Feed" aria-label="Bekijk 1:1 groot">
+              <img src="s2_1x1.jpg" alt="Groei met ons mee! in 1:1" loading="lazy"></button>
+            <figcaption><b>1:1</b><span>Feed</span></figcaption>
+          </figure>
+          <figure class="shot r916">
+            <button type="button" class="zoom" data-full="s2_9x16.jpg" data-cap="S2 · 9:16 · Stories &amp; Reels" aria-label="Bekijk 9:16 groot">
+              <img src="s2_9x16.jpg" alt="Groei met ons mee! in 9:16" loading="lazy"></button>
+            <figcaption><b>9:16</b><span>Stories &amp; Reels</span></figcaption>
+          </figure>
+          <figure class="shot r169">
+            <button type="button" class="zoom" data-full="s2_16x9.jpg" data-cap="S2 · 16:9 · Liggend formaat" aria-label="Bekijk 16:9 groot">
+              <img src="s2_16x9.jpg" alt="Groei met ons mee! in 16:9" loading="lazy"></button>
+            <figcaption><b>16:9</b><span>Liggend formaat</span></figcaption>
+          </figure>
+        </div>
+      </article>
+      <article class="creative" id="static-3" aria-labelledby="t-static-3">
+        <div class="chead">
+          <div><p class="eyebrow">Statische ad 3 van 3</p><h3 id="t-static-3">Te klein geworden?</h3></div>
+          <ul class="facts"><li>Advertenties S3-A · S3-B · S3-C</li></ul>
+        </div>
+        <div class="gallery">
+          <figure class="shot r11">
+            <button type="button" class="zoom" data-full="s3_1x1.jpg" data-cap="S3 · 1:1 · Feed" aria-label="Bekijk 1:1 groot">
+              <img src="s3_1x1.jpg" alt="Te klein geworden? in 1:1" loading="lazy"></button>
+            <figcaption><b>1:1</b><span>Feed</span></figcaption>
+          </figure>
+          <figure class="shot r916">
+            <button type="button" class="zoom" data-full="s3_9x16.jpg" data-cap="S3 · 9:16 · Stories &amp; Reels" aria-label="Bekijk 9:16 groot">
+              <img src="s3_9x16.jpg" alt="Te klein geworden? in 9:16" loading="lazy"></button>
+            <figcaption><b>9:16</b><span>Stories &amp; Reels</span></figcaption>
+          </figure>
+          <figure class="shot r169">
+            <button type="button" class="zoom" data-full="s3_16x9.jpg" data-cap="S3 · 16:9 · Liggend formaat" aria-label="Bekijk 16:9 groot">
+              <img src="s3_16x9.jpg" alt="Te klein geworden? in 16:9" loading="lazy"></button>
+            <figcaption><b>16:9</b><span>Liggend formaat</span></figcaption>
+          </figure>
+        </div>
+      </article>
+    <div class="textset" id="teksten-statisch">
+      <div class="thead"><h3>Teksten bij de statische ads</h3><p>Deze drie teksten draaien bij alle drie de statische ads.</p></div>
+      <div class="tcards">
+        <article class="tcard">
+          <header><h4>Tekst A</h4><span class="codes">S1-A · S2-A · S3-A</span></header>
+          <div><p class="flabel">Primaire tekst</p><div class="primary"><p>Ze groeien. Hun kleding groeit niet mee. 👕💚</p><p>Geef te kleine kinderkleding door via Ruil&amp;Groei. Ruilt iemand jouw kleding? Dan ontvang je digitale munten waarmee je zelf andere kinderkleding kunt kiezen.</p><p>Zo begint de volgende maat bij kleding die nog prima een ronde mee kan.</p><p>👉 Maak gratis een account aan.</p></div></div>
+          <div class="frow">
+            <div><p class="flabel">Kop</p><p class="headline">Ruil een maatje verder</p></div>
+            <div><p class="flabel">Beschrijving</p><p class="desc">Geef door en ontdek de volgende maat.</p></div>
+          </div>
+        </article>
+        <article class="tcard">
+          <header><h4>Tekst B</h4><span class="codes">S1-B · S2-B · S3-B</span></header>
+          <div><p class="flabel">Primaire tekst</p><div class="primary"><p>Te klein geworden, maar nog veel te leuk om in de kast te laten liggen? 💛</p><p>Dat fijne truitje of favoriete jurkje kan een ander kind weer blij maken. Zet het op Ruil&amp;Groei en ontvang digitale munten zodra iemand jouw kleding ruilt. Die gebruik je om zelf andere kinderkleding te kiezen.</p><p>Geef mooie kleding een tweede leven. Maak vandaag gratis een account aan. 🌱</p></div></div>
+          <div class="frow">
+            <div><p class="flabel">Kop</p><p class="headline">Te klein? Geef het door!</p></div>
+            <div><p class="flabel">Beschrijving</p><p class="desc">Kinderkleding ruilen met digitale munten.</p></div>
+          </div>
+        </article>
+        <article class="tcard">
+          <header><h4>Tekst C</h4><span class="codes">S1-C · S2-C · S3-C</span></header>
+          <div><p class="flabel">Primaire tekst</p><div class="primary"><p>Wat bij de één te klein is, past bij de ander precies. 🌱</p><p>Op Ruil&amp;Groei helpen ouders elkaar aan de volgende maat. Plaats kinderkleding die niet meer past, ontvang munten wanneer iemand jouw kleding ruilt en kies daarmee andere kleding uit.</p><p>Doe mee en laat kinderkleding verder groeien. 💚</p><p>👉 Maak gratis jouw account aan.</p></div></div>
+          <div class="frow">
+            <div><p class="flabel">Kop</p><p class="headline">Groei met Ruil&amp;Groei mee</p></div>
+            <div><p class="flabel">Beschrijving</p><p class="desc">Gratis account. Ontdek het platform.</p></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="block" id="videos" aria-labelledby="t-videos">
+    <div class="bhead">
+      <p class="eyebrow">Video</p>
+      <h2 id="t-videos">Video’s</h2>
+      <p class="blede">Elke video staat er in twee formaten: 4:5 voor de feed en 9:16 voor Stories &amp; Reels. Klik bij ‘Tekst in beeld’ op een moment om de video daar te laten beginnen.</p>
+    </div>
+      <article class="video" id="video-1" aria-labelledby="t-video-1">
+        <div class="chead">
+          <div><p class="eyebrow">Video 1 van 3</p><h3 id="t-video-1">Alweer te klein?</h3></div>
+          <ul class="facts"><li>17 sec</li><li>Met geluid</li><li>Advertenties V1-A · V1-B · V1-C</li></ul>
+        </div>
+        <div class="vbody">
+          <div class="players">
+            <figure class="player r45">
+              <video controls playsinline preload="metadata" poster="v1_4x5.jpg" aria-label="Alweer te klein? in 4:5"><source src="v1_4x5.mp4" type="video/mp4"></video>
+              <figcaption><b>4:5</b><span>Feed</span></figcaption>
+            </figure>
+            <figure class="player r916">
+              <video controls playsinline preload="metadata" poster="v1_9x16.jpg" aria-label="Alweer te klein? in 9:16"><source src="v1_9x16.mp4" type="video/mp4"></video>
+              <figcaption><b>9:16</b><span>Stories &amp; Reels</span></figcaption>
+            </figure>
+          </div>
+          <div class="script">
+            <p class="label">Tekst in beeld</p>
+            <ol class="timeline"><li><button type="button" data-t="0"><span class="ts">0:00</span><span>Alweer te klein?</span></button></li><li><button type="button" data-t="1.8"><span class="ts">0:02</span><span>Zet het op Ruil&amp;Groei.</span></button></li><li><button type="button" data-t="5"><span class="ts">0:05</span><span>Ruilt een andere ouder?</span></button></li><li><button type="button" data-t="6.5"><span class="ts">0:07</span><span>Dan krijg jij munten.</span></button></li><li><button type="button" data-t="9"><span class="ts">0:09</span><span>Daarmee kies je zelf iets dat wél past.</span></button></li><li><button type="button" data-t="13"><span class="ts">0:13</span><span>Eindscherm met knop ‘Meld je gratis aan’</span></button></li></ol>
+            <p class="hint">Klik op een moment; de video die je het laatst startte begint daar.</p>
+          </div>
+        </div>
+      </article>
+      <article class="video" id="video-2" aria-labelledby="t-video-2">
+        <div class="chead">
+          <div><p class="eyebrow">Video 2 van 3</p><h3 id="t-video-2">Zo werken de munten</h3></div>
+          <ul class="facts"><li>23 sec</li><li>Met geluid</li><li>Advertenties V2-A · V2-B · V2-C</li></ul>
+        </div>
+        <div class="vbody">
+          <div class="players">
+            <figure class="player r45">
+              <video controls playsinline preload="metadata" poster="v2_4x5.jpg" aria-label="Zo werken de munten in 4:5"><source src="v2_4x5.mp4" type="video/mp4"></video>
+              <figcaption><b>4:5</b><span>Feed</span></figcaption>
+            </figure>
+            <figure class="player r916">
+              <video controls playsinline preload="metadata" poster="v2_9x16.jpg" aria-label="Zo werken de munten in 9:16"><source src="v2_9x16.mp4" type="video/mp4"></video>
+              <figcaption><b>9:16</b><span>Stories &amp; Reels</span></figcaption>
+            </figure>
+          </div>
+          <div class="script">
+            <p class="label">Tekst in beeld</p>
+            <ol class="timeline"><li><button type="button" data-t="0"><span class="ts">0:00</span><span>Kinderkleding ruilen met andere ouders.</span></button></li><li><button type="button" data-t="3.2"><span class="ts">0:03</span><span>Ruilen met iemand die niks in jouw maat heeft?</span></button></li><li><button type="button" data-t="5.1"><span class="ts">0:05</span><span>Kan gewoon. Met munten.</span></button></li><li><button type="button" data-t="6.8"><span class="ts">0:07</span><span>Jouw trui gaat naar een ander gezin…</span></button></li><li><button type="button" data-t="9"><span class="ts">0:09</span><span>…en jij krijgt munten.</span></button></li><li><button type="button" data-t="11.6"><span class="ts">0:12</span><span>Besteed ze bij wie jij wilt.</span></button></li><li><button type="button" data-t="14.5"><span class="ts">0:15</span><span>Ophalen of versturen regel je in de chat.</span></button></li><li><button type="button" data-t="17.1"><span class="ts">0:17</span><span>Zo wordt te klein weer passend.</span></button></li><li><button type="button" data-t="19.2"><span class="ts">0:19</span><span>Eindscherm met knop ‘Ontdek Ruil&amp;Groei’</span></button></li></ol>
+            <p class="hint">Klik op een moment; de video die je het laatst startte begint daar.</p>
+          </div>
+        </div>
+      </article>
+      <article class="video" id="video-3" aria-labelledby="t-video-3">
+        <div class="chead">
+          <div><p class="eyebrow">Video 3 van 3</p><h3 id="t-video-3">Vorige maand paste die nog!</h3></div>
+          <ul class="facts"><li>21 sec</li><li>Met geluid</li><li>Advertenties V3-A · V3-B · V3-C</li></ul>
+        </div>
+        <div class="vbody">
+          <div class="players">
+            <figure class="player r45">
+              <video controls playsinline preload="metadata" poster="v3_4x5.jpg" aria-label="Vorige maand paste die nog! in 4:5"><source src="v3_4x5.mp4" type="video/mp4"></video>
+              <figcaption><b>4:5</b><span>Feed</span></figcaption>
+            </figure>
+            <figure class="player r916">
+              <video controls playsinline preload="metadata" poster="v3_9x16.jpg" aria-label="Vorige maand paste die nog! in 9:16"><source src="v3_9x16.mp4" type="video/mp4"></video>
+              <figcaption><b>9:16</b><span>Stories &amp; Reels</span></figcaption>
+            </figure>
+          </div>
+          <div class="script">
+            <p class="label">Tekst in beeld</p>
+            <ol class="timeline"><li><button type="button" data-t="0"><span class="ts">0:00</span><span>Vorige maand paste die nog!</span></button></li><li><button type="button" data-t="1.9"><span class="ts">0:02</span><span>En de doos onder het bed? Alweer vol.</span></button></li><li><button type="button" data-t="5"><span class="ts">0:05</span><span>Zet het gratis op Ruil&amp;Groei.</span></button></li><li><button type="button" data-t="8"><span class="ts">0:08</span><span>Neemt een ander gezin het? Dan krijg jij munten.</span></button></li><li><button type="button" data-t="11"><span class="ts">0:11</span><span>Met je munten kies je de volgende maat.</span></button></li><li><button type="button" data-t="14"><span class="ts">0:14</span><span>Zo wordt te klein weer passend.</span></button></li><li><button type="button" data-t="17"><span class="ts">0:17</span><span>Eindscherm met knop ‘Meld je gratis aan’</span></button></li></ol>
+            <p class="hint">Klik op een moment; de video die je het laatst startte begint daar.</p>
+          </div>
+        </div>
+      </article>
+    <div class="textset" id="teksten-videos">
+      <div class="thead"><h3>Teksten bij de video’s</h3><p>Deze drie teksten draaien bij alle drie de video’s.</p></div>
+      <div class="tcards">
+        <article class="tcard">
+          <header><h4>Tekst A</h4><span class="codes">V1-A · V2-A · V3-A</span></header>
+          <div><p class="flabel">Primaire tekst</p><div class="primary"><p>Ruilen met iemand die niets in jouw maat heeft? Dat kan, met munten. 🪙</p><p class="step">Zo werkt Ruil&amp;Groei:</p><p class="step">1️⃣ Zet kinderkleding die niet meer past gratis online.</p><p class="step">2️⃣ Neemt een ander gezin het? Dan krijg jij munten.</p><p class="step">3️⃣ Met je munten kies je zelf de volgende maat.</p><p>Ophalen of versturen regel je samen in de chat.</p><p>👉 Maak gratis een account aan.</p></div></div>
+          <div class="frow">
+            <div><p class="flabel">Kop</p><p class="headline">Zo werkt ruilen met munten</p></div>
+            <div><p class="flabel">Beschrijving</p><p class="desc">Gratis account, geen provisie.</p></div>
+          </div>
+        </article>
+        <article class="tcard">
+          <header><h4>Tekst B</h4><span class="codes">V1-B · V2-B · V3-B</span></header>
+          <div><p class="flabel">Primaire tekst</p><div class="primary"><p>Doos vol te kleine kleding? Daar zit de volgende maat al in. 📦</p><p>Zet wat niet meer past op Ruil&amp;Groei. Neemt een ander gezin het? Dan krijg jij munten. Daarmee kies je zelf kinderkleding die wél past.</p><p>Een opgeruimde kast, kleding die verder gaat en weer iets dat past. 💚</p><p>👉 Maak gratis een account aan.</p></div></div>
+          <div class="frow">
+            <div><p class="flabel">Kop</p><p class="headline">Zo wordt te klein weer passend</p></div>
+            <div><p class="flabel">Beschrijving</p><p class="desc">Ruil kinderkleding met munten.</p></div>
+          </div>
+        </article>
+        <article class="tcard">
+          <header><h4>Tekst C</h4><span class="codes">V1-C · V2-C · V3-C</span></header>
+          <div><p class="flabel">Primaire tekst</p><div class="primary"><p>Steeds een nieuwe maat kopen? Ruilen kan ook. 🌱</p><p>Kinderkleding past vaak maar een paar maanden. Op Ruil&amp;Groei ruilen ouders wat te klein is geworden: neemt een ander gezin jouw kleding, dan krijg je digitale munten. Daarmee kies je zelf de volgende maat.</p><p>Gratis account en geen provisie.</p><p>👉 Maak gratis jouw account aan.</p></div></div>
+          <div class="frow">
+            <div><p class="flabel">Kop</p><p class="headline">Ruilen in plaats van kopen</p></div>
+            <div><p class="flabel">Beschrijving</p><p class="desc">Nieuw ruilplatform voor ouders</p></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <footer class="foot">
+    <span>28 oktober 2026</span>
+    <span>Opgesteld door <a href="https://growguide.ai" target="_blank" rel="noopener">GrowGuide</a> voor Ruil&amp;Groei</span>
+  </footer>
+</div>
+
+<dialog class="lb" id="lightbox" aria-label="Afbeelding groot">
+  <img alt="">
+  <div class="lb-bar"><span class="lb-cap"></span><button type="button" data-close>Sluiten</button></div>
+</dialog>
+
+<script>
+(() => {
+  const all = [...document.querySelectorAll('video')];
+  // één video tegelijk, zodat het geluid niet door elkaar loopt
+  all.forEach(v => v.addEventListener('play', () => all.forEach(o => { if (o !== v) o.pause(); })));
+
+  document.querySelectorAll('.video').forEach(sec => {
+    const vids = [...sec.querySelectorAll('video')];
+    const buttons = [...sec.querySelectorAll('.timeline button')];
+    if (!vids.length || !buttons.length) return;
+    let active = vids[0];
+    const times = buttons.map(b => parseFloat(b.dataset.t) || 0);
+    const mark = () => {
+      const t = active.currentTime || 0;
+      let cur = -1;
+      times.forEach((s, i) => { if (t + 0.05 >= s) cur = i; });
+      if (t === 0 && active.paused) cur = -1;
+      buttons.forEach((b, i) => {
+        b.classList.toggle('is-now', i === cur);
+        if (i === cur) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
+      });
+    };
+    vids.forEach(v => {
+      v.addEventListener('play', () => { active = v; mark(); });
+      v.addEventListener('timeupdate', () => { if (v === active) mark(); });
+      v.addEventListener('seeked', () => { if (v === active) mark(); });
+    });
+    buttons.forEach((b, i) => b.addEventListener('click', () => {
+      try { active.currentTime = times[i]; } catch (e) { /* metadata nog niet geladen */ }
+      const p = active.play();
+      if (p && typeof p.catch === 'function') p.catch(() => {});
+      mark();
+    }));
+  });
+
+  // afbeeldingen groot bekijken
+  const lb = document.getElementById('lightbox');
+  if (lb && typeof lb.showModal === 'function') {
+    const img = lb.querySelector('img');
+    const cap = lb.querySelector('.lb-cap');
+    document.querySelectorAll('.zoom').forEach(b => b.addEventListener('click', () => {
+      img.src = b.dataset.full;
+      img.alt = b.querySelector('img').alt;
+      cap.textContent = b.dataset.cap || '';
+      lb.showModal();
+    }));
+    lb.addEventListener('click', e => { if (e.target === lb || e.target.closest('[data-close]')) lb.close(); });
+  }
+
+  // directe link naar een onderdeel, bijvoorbeeld #video-2 of #static-1
+  const go = () => {
+    const id = (location.hash || '').slice(1);
+    const el = id ? document.getElementById(id) : null;
+    if (el) el.scrollIntoView({ block: 'start' });
+  };
+  window.addEventListener('hashchange', go);
+  if (document.readyState === 'complete') go(); else window.addEventListener('load', go);
+})();
+</script>
+
+</body>
+</html>
